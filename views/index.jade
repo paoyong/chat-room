@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form
+    input#m(autocomplete='off')
+    button Submit
+    script(src='socket.io/socket.io.js')
+    script(src='js/index.js')
