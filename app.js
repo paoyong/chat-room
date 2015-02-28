@@ -68,8 +68,14 @@ io.on('connection', function(socket) {
 
     // When a person emits a chat message
     socket.on('chat message', function(msg) {
+        console.log(msg);
         // Send that message to everyone.
         io.emit('chat message', msg);
+        db.insertMessage(msg.chatRoom, msg.username, msg.message, msg.unixTime, function(err) {
+            if (err) {
+                console.log('Error while inserting message into db: ' + err);
+            }
+        });
     });
 });
 
