@@ -23,5 +23,16 @@ module.exports = {
                 }
             });
         });
+    },
+    getChatRooms: function(callback) {
+        chatdb.serialize(function() {
+            chatdb.all('SELECT name FROM chat_room', function(err, rows) {
+                if (err) {
+                    console.log('Error while grabbing chat rooms: ' + err);
+                } else {
+                    callback(null, rows);
+                }
+            });
+        });
     }
 };

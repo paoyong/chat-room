@@ -8,7 +8,11 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var routes = require('./routes/index');
+var indexRouter = require('./routes/index.js');
+var chatRoomsRouter = require('./routes/chatrooms.js');
+var messagesRouter = require('./routes/messages.js');
+
+var db = require('./db.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,7 +26,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', indexRouter);
+app.use('/chatrooms', chatRoomsRouter);
+app.use('/messages', messagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,7 +66,6 @@ io.on('connection', function(socket) {
 
     // When a person emits a chat message
     socket.on('chat message', function(msg) {
-
         // Send that message to everyone.
         io.emit('chat message', msg);
     });
