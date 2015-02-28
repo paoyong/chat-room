@@ -18,7 +18,6 @@ var App = React.createClass({
             </div>
         );
     }
-
 })
 var ChatRoomsList = React.createClass({
     render: function() {
