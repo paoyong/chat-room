@@ -6,6 +6,6 @@ router.get('/', function(req, res, next){
     db.getChatRooms(function(err, rows) {
         res.send(rows);
     });
-})
+});
 
 module.exports = router;

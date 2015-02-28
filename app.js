@@ -11,6 +11,7 @@ var io = require('socket.io')(http);
 var indexRouter = require('./routes/index.js');
 var chatRoomsRouter = require('./routes/chatrooms.js');
 var messagesRouter = require('./routes/messages.js');
+var rRouter = require('./routes/r.js');
 
 var db = require('./db.js');
 
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/chatrooms', chatRoomsRouter);
 app.use('/messages', messagesRouter);
+app.use('/r', rRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,7 +64,7 @@ app.use(function(err, req, res, next) {
 });
 
 io.on('connection', function(socket) {
-    console.log("connected");
+    console.log("User connected to socket");
 
     // When a person emits a chat message
     socket.on('chat message', function(msg) {
