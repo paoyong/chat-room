@@ -2,29 +2,39 @@ body * {
     margin: 0;
     padding: 0;
 }
+
 header {
-    margin-bottom: 20px;
 }
+
 body {
+    margin-left: 20vw;
     font-size: 16px;
     font-family: 'Inconsolata', 'Helvetica', sans-serif;
+    width: 40vw;
 }
+@media (max-width: 400px) {
+    body {
+        width: auto;
+        margin: 10px;
+    }
+}
+
 #loginForm {
     margin-bottom: 10px;
 }
-#loginMessage {
-    font-size: .875rem;
+
+ul {
+    list-style: none;
 }
+
 .messagesList {
     margin-top: 20px;
     margin-bottom: 10px;
-    list-style: none;
-    padding: 10px;
 }
 
 input {
     border: none;
-    padding: 10px;
+    padding: 10px 0 10px 0;
     font-family: inherit;
     font-size: 1rem;
 }

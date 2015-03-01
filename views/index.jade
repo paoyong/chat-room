@@ -5,11 +5,10 @@ block content
         h1= title
         p#loginMessage= loginMessage 
             span#loggedIn= loggedIn
+            |.
     form(id='loginForm' autocomplete='off')
-        label(for='username') Set username
-            br
         span.input
-            input.input_field.username_input_field(type='text', id='username', placeholder='Username...')
+            input.input_field.username_input_field(type='text', id='username', placeholder='Set username...')
     p Join a chat room:
     div#chatRoomList
     script(type='text/jsx' src='/js/joinroom.js')
