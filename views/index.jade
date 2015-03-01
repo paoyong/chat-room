@@ -1,11 +1,13 @@
 extends layout
 
 block content
-    h1= title
-    p#loginMessage= loginMessage 
-        span#loggedIn= loggedIn
-    label(for='loginForm') Set username
+    header
+        h1= title
+        p#loginMessage= loginMessage 
+            span#loggedIn= loggedIn
     form(id='loginForm' autocomplete='off')
+        label(for='username') Set username
+            br
         input(type='text', id='username')
         input(type='submit', value='login')
     p Join a chat room:
