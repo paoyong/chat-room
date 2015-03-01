@@ -1,35 +1,21 @@
-// Used by room.jade
+// Used by room.jade. This JS renders a Chat App for every chat room.
+// TODO: Implement message list limit to display
 var socket = io();
-$('form').submit(function() {
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
-});
-
-
 var roomName = $('#roomName').text();
 var limit = 200;
+
+// Seconds since Unix Epoch
+function getCurrUnixTime() {
+    return Math.floor((new Date().getTime()) / 1000);
+}
 
 var ChatApp = React.createClass({
     getInitialState: function() {
         socket.on('chat message', this.messageRecieve);
         return {messages: []};
     },
-    messageRecieve: function(message) {
-        // api:  {"msg":"Hello world","user":"keithy","unix_time":1425124813}
-        // emit: {chatRoom: "general", username: "keithy", message: "ads", unixTime: 1425157877}
-        if (message.chatRoom === roomName) {
-            var newMsg = {
-                msg: message.message,
-                user: message.username,
-                unix_time: message.unixTime
-            };
-            var messages = this.state.messages;
-            var newMessages = messages.concat(newMsg);
-            this.setState({messages: newMessages});
-        }
-    },
     componentDidMount: function() {
+        // On ChatApp load, grab message history of current chat room from the /messages API
         $.ajax({
             url: '/messages/?chatroom=' + roomName +'&limit=' + limit,
             dataType: 'json',
@@ -41,9 +27,24 @@ var ChatApp = React.createClass({
             }.bind(this)
         });
     },
+    messageRecieve: function(msgInfo) {
+        if (msgInfo.chatRoom === roomName) {
+            // Create a new msgInfo for this current React app
+            var newMsg = {
+                msg: msgInfo.msg,
+                user: msgInfo.user,
+                unix_time: msgInfo.unix_time
+            };
+
+            // Here we are concatenating the new emitted message into our ChatApp's messages list
+            var messages = this.state.messages;
+            var newMessages = messages.concat(newMsg);
+            this.setState({messages: newMessages});
+        }
+    },
     render: function() {
         return (
-            <div className="chatApp">
+            <div className='chatApp'>
                 <MessagesList messages={this.state.messages}/>
                 <ChatForm />
             </div>
@@ -57,7 +58,7 @@ var MessagesList = React.createClass({
             return (<Message msg={msg} />);
         });
         return (
-            <ul>
+            <ul className='messagesList'>
                 {messageNodes}
             </ul>
         );
@@ -68,27 +69,27 @@ var Message = React.createClass({
     render: function() {
         var msg = this.props.msg;
         return (
-            <li>{msg.user}: {msg.msg}</li>
+            <li className='message'>{msg.user}: {msg.msg}</li>
         );
     }
 });
 
-function getCurrUnixTime() {
-    return Math.floor((new Date().getTime()) / 1000);
-}
 var ChatForm = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
+
+        // The DOM node for <input> chat message
         var msgDOMNode = this.refs.msg.getDOMNode();
+
         var msgInfo = {
             chatRoom: roomName,
-            username: 'keithy',
-            message: msgDOMNode.value,
-            unixTime: getCurrUnixTime()
+            msg: msgDOMNode.value,
+            user: 'keithy',
+            unix_time: getCurrUnixTime()
         };
+
         socket.emit('chat message', msgInfo);
         msgDOMNode.value = '';
-        
     },
     render: function() {
         return (
@@ -103,4 +104,4 @@ var ChatForm = React.createClass({
 React.render(
     <ChatApp />,
     document.getElementById('app')
-);
+)data;
