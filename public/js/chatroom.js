@@ -1,8 +1,9 @@
 // Used by room.jade. This JS renders a Chat App for every chat room.
-// TODO: Implement message list limit to display
+// TODO: Implement username
 var socket = io();
 var roomName = $('#roomName').text();
 var limit = 200;
+var uiLimit = 30;
 
 // Seconds since Unix Epoch
 function getCurrUnixTime() {
@@ -21,12 +22,23 @@ var ChatApp = React.createClass({
             dataType: 'json',
             success: function(data) {
                 this.setState({messages: data});
+                this.trimMessagesStateIfNecessary();
             }.bind(this),
             failure: function(xhr, status, err) {
                 console.err(url, status, err.toString());
             }.bind(this)
         });
     },
+    trimMessagesStateIfNecessary: function() {
+        var messages = this.state.messages;
+        var messagesLength = messages.length;
+        var appUiLim = this.props.uiLimit;
+        if (appUiLim < messagesLength) {
+            messages.splice(0, messagesLength - uiLimit);
+        }
+        this.setState({messages: messages});
+    },
+    // Detected a new message from SocketIO
     messageRecieve: function(msgInfo) {
         if (msgInfo.chatRoom === roomName) {
             // Create a new msgInfo for this current React app
@@ -40,6 +52,7 @@ var ChatApp = React.createClass({
             var messages = this.state.messages;
             var newMessages = messages.concat(newMsg);
             this.setState({messages: newMessages});
+            this.trimMessagesStateIfNecessary();
         }
     },
     render: function() {
@@ -102,6 +115,6 @@ var ChatForm = React.createClass({
 })
 
 React.render(
-    <ChatApp />,
+    <ChatApp uiLimit={uiLimit}/>,
     document.getElementById('app')
-)data;
+);

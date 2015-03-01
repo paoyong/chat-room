@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var session = require('express-session');
 
 var indexRouter = require('./routes/index.js');
 var chatRoomsRouter = require('./routes/chatrooms.js');
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'keith'}));
 
 app.use('/', indexRouter);
 app.use('/chatrooms', chatRoomsRouter);
@@ -64,14 +66,15 @@ app.use(function(err, req, res, next) {
 });
 
 io.on('connection', function(socket) {
-    console.log("User connected to socket");
-
-    // When a person emits a chat message
-    socket.on('chat message', function(msg) {
+    socket.on('hi', function(msg) {
         console.log(msg);
+    });
+    socket.on('chat message', function(msgInfo) {
         // Send that message to everyone.
-        io.emit('chat message', msg);
-        db.insertMessage(msg.chatRoom, msg.username, msg.message, msg.unixTime, function(err) {
+        io.emit('chat message', msgInfo);
+        
+        // Insert that message to database
+        db.insertMessage(msgInfo.chatRoom, msgInfo.user, msgInfo.msg, msgInfo.unix_time, function(err) {
             if (err) {
                 console.log('Error while inserting message into db: ' + err);
             }

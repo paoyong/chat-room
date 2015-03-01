@@ -2,6 +2,12 @@ extends layout
 
 block content
     h1= title
+    p#loginMessage= loginMessage 
+        span#loggedIn= loggedIn
+    form(id='loginForm' autocomplete='off')
+        input(type='text', id='username')
+        input(type='submit', value='login')
     p Join a chat room:
+    label(for='loginForm') Set username
     div#chatRoomList
     script(type='text/jsx' src='/js/joinroom.js')

@@ -1,3 +1,35 @@
+var loggedInAs;
+function updateLogInInfo(username) {
+    $('#loginMessage').text('Logged in as ' + username + '.');
+}
+
+$.ajax({
+    url: '/login',
+    success: function(username) {
+        loggedInAs = username;
+        if (loggedInAs) {
+            updateLogInInfo(loggedInAs);
+        }
+    }
+});
+
+$('form').submit(function(e) {
+    e.preventDefault();
+    var data = {
+        username: $('#username').val()
+    };
+    $.ajax({
+        type: 'POST',
+        url: '/login',
+        data: data,
+        success: function() {
+            updateLogInInfo(data.username);
+            $('#username').val('');
+            $('#username').blur();
+        }
+    });
+});
+
 var App = React.createClass({
     getInitialState: function() {
         return {rooms: []};
