@@ -2,9 +2,10 @@
 // TODO: Implement username
 var socket = io();
 var roomName = $('#roomName').text();
+var username = $('#username').text();
 var limit = 200;
 var uiLimit = 30;
-
+var initialData;
 // Seconds since Unix Epoch
 function getCurrUnixTime() {
     return Math.floor((new Date().getTime()) / 1000);
@@ -97,7 +98,7 @@ var ChatForm = React.createClass({
         var msgInfo = {
             chatRoom: roomName,
             msg: msgDOMNode.value,
-            user: 'keithy',
+            user: username,
             unix_time: getCurrUnixTime()
         };
 
