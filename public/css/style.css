@@ -12,12 +12,52 @@ body {
 #loginForm {
     margin-bottom: 10px;
 }
+#loginMessage {
+    font-size: .875rem;
+}
 .messagesList {
     margin-top: 20px;
     margin-bottom: 10px;
     list-style: none;
     padding: 10px;
+}
+
+input {
+    border: none;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.input_field {
+    display: inline-block;
+    width: 60%;
+    color: #555;
+}
+
+.input_field:focus {
+    outline: none;
+}
+
+.chat_input_field {
+    width: 90%;
+}
+
+.username_input_field {
+    max-width: 200px;
+}
+
+.input_submit {
+    padding: 10px 20px 10px 20px;
     border-radius: 2px;
-    border: 1px solid #ddd;
-    font-size: .875rem;
+}
+label {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+a {
+    color: #01B0F0;
 }

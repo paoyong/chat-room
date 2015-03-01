@@ -108,8 +108,7 @@ var ChatForm = React.createClass({
     render: function() {
         return (
             <form className='chatForm' onSubmit={this.handleSubmit}>
-                <input type='text' placeholder='Say something...' ref='msg'/>
-                <input type='submit' />
+            <input className='input_field chat_input_field' type='text' placeholder='Say something...' ref='msg'/>
             </form>
         );
     }
