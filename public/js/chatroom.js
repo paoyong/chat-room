@@ -83,7 +83,7 @@ var Message = React.createClass({
     render: function() {
         var msg = this.props.msg;
         return (
-            <li className='message'>{msg.user}: {msg.msg}</li>
+            <li className='message'><b className='username'>{msg.user}</b>: {msg.msg}</li>
         );
     }
 });
