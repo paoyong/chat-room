@@ -10,7 +10,8 @@ body {
     margin-left: 20vw;
     font-size: 16px;
     font-family: 'Inconsolata', 'Helvetica', sans-serif;
-    width: 40vw;
+    width: calc(80vw - 20px);
+    max-width: 760px;
 }
 @media (max-width: 400px) {
     body {

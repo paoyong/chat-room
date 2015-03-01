@@ -15,8 +15,13 @@ $.ajax({
 
 $('form').submit(function(e) {
     e.preventDefault();
+    var val = $('#username').val();
+    console.log(val);
+    if (val === '') {
+        return;
+    }
     var data = {
-        username: $('#username').val()
+        username: val
     };
     $.ajax({
         type: 'POST',
