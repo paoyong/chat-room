@@ -9,6 +9,9 @@ body {
     font-size: 16px;
     font-family: 'Inconsolata', 'Helvetica', sans-serif;
 }
+#loginForm {
+    margin-bottom: 10px;
+}
 .messagesList {
     margin-top: 20px;
     margin-bottom: 10px;
