@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     var currUser = req.session.username;
     var renderData = {
-        title: 'Chat Room',
+        title: 'chatter',
         loginMessage: 'Logged in as ',
         loggedIn: currUser
     }

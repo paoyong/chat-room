@@ -2,6 +2,9 @@ body * {
     margin: 0;
     padding: 0;
 }
+header {
+    margin-bottom: 20px;
+}
 body {
     font-size: 16px;
     font-family: 'Inconsolata', 'Helvetica', sans-serif;

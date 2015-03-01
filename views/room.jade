@@ -1,8 +1,13 @@
 extends layout
 
 block content
-    h1#roomName= roomName
-    p Logged in as 
-        span#username= username
+    header
+        h1#title
+            a(href='/') chatter
+            /r/
+            span#roomName= roomName
+        p Logged in as 
+            span#username= username
+            | .
     div#app
     script(src='/js/chatroom.js' type='text/jsx')
