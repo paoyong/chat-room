@@ -9,12 +9,16 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var session = require('express-session');
 
+// Routers
 var indexRouter = require('./routes/index.js');
 var chatRoomsRouter = require('./routes/chatrooms.js');
 var messagesRouter = require('./routes/messages.js');
 var rRouter = require('./routes/r.js');
 
+// DB handler
 var db = require('./db.js');
+
+var PORT = process.env.PORT || 8080;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -82,6 +86,6 @@ io.on('connection', function(socket) {
     });
 });
 
-http.listen(7998, function() {
+http.listen(PORT, function() {
     console.log('Listening on port 7998');
 });
