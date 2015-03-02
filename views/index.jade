@@ -2,7 +2,8 @@ extends layout
 
 block content
     header
-        h1= title
+        h1
+            a(href='/about')= title
         p#loginMessage= loginMessage 
             span#loggedIn= loggedIn
             |.

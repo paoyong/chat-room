@@ -1,18 +1,45 @@
+html {
+    background-color: #ECF0F1;
+}
 body * {
     margin: 0;
     padding: 0;
 }
 
-header {
+body *::selection {
+    background: #2C3E50;
+    color: #ECF0F1;
+}
+
+.normal_paragraph {
+    margin-bottom: 5px;
 }
 
 body {
     margin-left: 20vw;
+    margin-top: 20px;
     font-size: 16px;
     font-family: 'Inconsolata', 'Helvetica', sans-serif;
     width: calc(80vw - 20px);
     max-width: 760px;
+    color: #2C3E50;
 }
+
+a {
+    color: #01B0F0;
+    color: #B64926;
+    color: #FC4349;
+    color: #3498DB;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 400px) {
     body {
         width: auto;
@@ -31,6 +58,9 @@ ul {
 .messagesList {
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.message {
 }
 
 input {
@@ -68,7 +98,4 @@ label {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-a {
-    color: #01B0F0;
 }

@@ -23,7 +23,11 @@ router.post('/login', function(req, res, next) {
 
 router.get('/login', function(req, res, next) {
     res.send(req.session.username);
-})
+});
+
+router.get('/about', function(req, res, next) {
+    res.render('about', {title: 'chatter'});
+});
 
 module.exports = router;
 
