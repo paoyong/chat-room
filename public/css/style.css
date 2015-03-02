@@ -64,6 +64,7 @@ ul {
 }
 
 input {
+    background-color: inherit;
     border: none;
     padding: 10px 0 10px 0;
     font-family: inherit;
