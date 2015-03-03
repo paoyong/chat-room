@@ -1,5 +1,4 @@
 html {
-    background-color: #ECF0F1;
 }
 body * {
     margin: 0;
@@ -64,11 +63,18 @@ ul {
 }
 
 input {
+    box-sizing: border-box;
     background-color: inherit;
     border: none;
-    padding: 10px 0 10px 0;
+    padding: 10px;
+    margin: 10px 0 10px 0;
     font-family: inherit;
     font-size: 1rem;
+    -webkit-transition: background-color .15s ease-out;
+    -moz-transition: background-color .15s ease-out;
+    -o-transition: background-color .15s ease-out;
+    transition: background-color .15s ease-out;
+    background-color: white;
 }
 
 .input_field {
@@ -78,11 +84,13 @@ input {
 }
 
 .input_field:focus {
+    background-color: #2C3E50;
     outline: none;
+    color: #ECF0F1;
 }
 
 .chat_input_field {
-    width: 90%;
+    width: 50%;
 }
 
 .username_input_field {
@@ -100,3 +108,4 @@ label {
     -ms-user-select: none;
     user-select: none;
 }
+

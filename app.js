@@ -87,5 +87,5 @@ io.on('connection', function(socket) {
 });
 
 http.listen(PORT, function() {
-    console.log('Listening on port 7998');
+    console.log('Listening on port ' + PORT);
 });
