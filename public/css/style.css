@@ -57,6 +57,47 @@ ul {
 .messagesList {
     margin-top: 20px;
     margin-bottom: 10px;
+    -moz-animation-name: fadeInOnLoad;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-funtion: ease-in;
+    -moz-animation-duration: 0.3s;
+
+    -webkit-animation-name: fadeInOnLoad;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-duration: 0.3s;
+
+    animation-name: fadeInOnLoad;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+}
+
+@-moz-keyframes fadeInOnLoad {
+    0% {
+        opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeInOnLoad {
+    0% {
+        opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+}
+
+@keyframes fadeInOnLoad {
+    0% {
+        opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
 }
 
 .message {
