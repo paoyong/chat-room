@@ -4,7 +4,11 @@ var db = require('../db.js');
 
 router.get('/', function(req, res, next){
     db.getChatRooms(function(err, rows) {
-        res.send(rows);
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(rows);
+        }
     });
 });
 

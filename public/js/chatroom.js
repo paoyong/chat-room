@@ -11,6 +11,20 @@ function getCurrUnixTime() {
     return Math.floor((new Date().getTime()) / 1000);
 }
 
+function convertToHHMI(unix_time) {
+    var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
+    var days = Math.floor(unix_time / 86400);
+    var hours = Math.floor((unix_time - (days * 86400)) / 3600);
+    var minutes = Math.floor((unix_time - ((hours * 3600) + (days * 86400))) / 60);
+    hours -= timeZoneOffsetHours;
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    }
+
+    console.log(minutes);
+    return hours + ':' + minutes;
+}
+
 var ChatApp = React.createClass({
     getInitialState: function() {
         socket.on('chat message', this.messageRecieve);
@@ -41,13 +55,18 @@ var ChatApp = React.createClass({
     },
     // Detected a new message from SocketIO
     messageRecieve: function(msgInfo) {
-        if (msgInfo.chatRoom === roomName) {
+        if (msgInfo.room_name === roomName) {
             // Create a new msgInfo for this current React app
+
+            // Hour:Minute time
+            var HHMITime = convertToHHMI(msgInfo.unix_time);
             var newMsg = {
+                username: msgInfo.username,
                 msg: msgInfo.msg,
-                user: msgInfo.user,
-                unix_time: msgInfo.unix_time
+                time: HHMITime
             };
+
+            console.log(newMsg);
 
             // Here we are concatenating the new emitted message into our ChatApp's messages list
             var messages = this.state.messages;
@@ -83,7 +102,10 @@ var Message = React.createClass({
     render: function() {
         var msg = this.props.msg;
         return (
-            <li className='message'><b className='username'>{msg.user}</b>: {msg.msg}</li>
+            <li className='message'>
+                <span className='messageTime'>{msg.time} </span>
+                <b className='username'>{msg.username}</b> 
+                <span className='messageText'>: {msg.msg}</span></li>
         );
     }
 });
@@ -99,9 +121,9 @@ var ChatForm = React.createClass({
         }
 
         var msgInfo = {
-            chatRoom: roomName,
+            room_name: roomName,
             msg: msgDOMNode.value,
-            user: username,
+            username: username,
             unix_time: getCurrUnixTime()
         };
 

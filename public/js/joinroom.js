@@ -60,7 +60,7 @@ var ChatRoomsList = React.createClass({
     render: function() {
         var roomNodes = this.props.rooms.map(function(room) {
             return (
-                <ChatRoom roomName={room.name}/>
+                <ChatRoom roomName={room.room_name}/>
             );
         });
         return (

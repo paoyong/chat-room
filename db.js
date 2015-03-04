@@ -21,8 +21,8 @@ function pgQuery(queryString, callback) {
 }
 
 module.exports = {
-    insertMessage: function(chatRoom, username, message, callback) {
-        var insertMessageQueryString = 'INSERT INTO message VALUES (\'' + chatRoom + '\',\'' + username + '\',\'' + message + '\', now())';
+    insertMessage: function(chatRoom, username, message, unix_time, callback) {
+        var insertMessageQueryString = 'INSERT INTO message VALUES (\'' + chatRoom + '\',\'' + username + '\',\'' + message + '\', to_timestamp(' + unix_time + '))';
         console.log(insertMessageQueryString);
         pgQuery(insertMessageQueryString, function(err) {
             if (err) {
@@ -33,7 +33,7 @@ module.exports = {
         });
     },
     getMessages: function(chatRoom, limit, callback) {
-        var getMessagesQueryString = 'SELECT username, msg, to_char(time, \'HH:SS\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
+        var getMessagesQueryString = 'SELECT username, msg, to_char(time, \'HH:MI\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
         pgQuery(getMessagesQueryString, function(err, result) {
             if (err) {
                 callback(err);
