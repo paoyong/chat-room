@@ -2,7 +2,7 @@ var config = require('./config.js');
 var sqlite3 = require('sqlite3').verbose();
 var pg = require('pg');
 var chatdb = new sqlite3.Database(config.chat_db_filename);
-var pgURL = config.pg_local_url;
+var pgURL = config.pg_dokku_url;
 
 function pgQuery(queryString, callback) {
     pg.connect(pgURL, function(err, client, done) {
