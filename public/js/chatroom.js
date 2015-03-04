@@ -16,6 +16,9 @@ function convertToHHMI(unix_time) {
     var hours = Math.floor((unix_time - (days * 86400)) / 3600);
     var minutes = Math.floor((unix_time - ((hours * 3600) + (days * 86400))) / 60);
     hours -= timeZoneOffsetHours;
+    if (hours < 0) {
+        hours = 24 + hours;
+    }
     if (minutes < 10) {
         minutes = '0' + minutes;
     }
