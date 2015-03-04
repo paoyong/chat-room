@@ -2,7 +2,8 @@ var config = require('./config.js');
 var pg = require('pg');
 
 // Change to config.pg_local_url if working on local
-var pgURL = config.pg_dokku_url;
+// var pgURL = config.pg_dokku_url;
+var pgURL = config.pg_local_url;
 
 function pgQuery(queryString, callback) {
     pg.connect(pgURL, function(err, client, done) {
@@ -32,8 +33,8 @@ module.exports = {
             }
         });
     },
-    getMessages: function(chatRoom, limit, callback) {
-        var getMessagesQueryString = 'SELECT username, msg, to_char(time, \'HH:MI\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
+    getMessages: function(chatRoom, limit, timeZoneOffsetHours, callback) {
+        var getMessagesQueryString = 'SELECT username, msg, to_char((time + interval \'' + timeZoneOffsetHours + ' hours\'), \'HH:MI\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
         pgQuery(getMessagesQueryString, function(err, result) {
             if (err) {
                 callback(err);

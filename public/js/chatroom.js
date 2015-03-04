@@ -5,14 +5,13 @@ var roomName = $('#roomName').text();
 var username = $('#username').text();
 var limit = 200;
 var uiLimit = 30;
-var initialData;
+var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
 // Seconds since Unix Epoch
 function getCurrUnixTime() {
     return Math.floor((new Date().getTime()) / 1000);
 }
 
 function convertToHHMI(unix_time) {
-    var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
     var days = Math.floor(unix_time / 86400);
     var hours = Math.floor((unix_time - (days * 86400)) / 3600);
     var minutes = Math.floor((unix_time - ((hours * 3600) + (days * 86400))) / 60);
@@ -33,7 +32,7 @@ var ChatApp = React.createClass({
     componentDidMount: function() {
         // On ChatApp load, grab message history of current chat room from the /messages API
         $.ajax({
-            url: '/messages/?chatroom=' + roomName +'&limit=' + limit,
+            url: '/messages/?chatroom=' + roomName +'&limit=' + limit + '&timezoneoffsethours=' + timeZoneOffsetHours,
             dataType: 'json',
             success: function(data) {
                 this.setState({messages: data});
