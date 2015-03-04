@@ -3,4 +3,4 @@ create table chat_room (
     primary key(room_name)
 );
 
-create table message (room_name varchar(40) references chat_room(room_name), username varchar(40), msg text, unix_time timestamp);
+create table message (room_name varchar(40) references chat_room(room_name), username varchar(40), msg text, time timestamptz);

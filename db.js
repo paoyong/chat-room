@@ -1,42 +1,54 @@
 var config = require('./config.js');
 var sqlite3 = require('sqlite3').verbose();
+var pg = require('pg');
 var chatdb = new sqlite3.Database(config.chat_db_filename);
+var pgURL = config.pg_local_url;
+
+function pgQuery(queryString, callback) {
+    pg.connect(pgURL, function(err, client, done) {
+        if (err) {
+            callback(err);
+        }
+        client.query(queryString, function(err, result) {
+            if (err) {
+                return console.error('Error running query ', err);
+            }
+            callback(null, result);
+            client.end();
+        });
+                
+    });
+}
 
 module.exports = {
-    insertMessage: function(chatRoom, username, message, unixTime, callback) {
-        chatdb.serialize(function() {
-            chatdb.run('INSERT INTO message VALUES ($chatroom, $message, $user, $unix_time )', {
-                $chatroom: chatRoom,
-                $message: message,
-                $user: username,
-                $unix_time: unixTime
-            }, function(err) {
-                if (err) {
-                    callback(err);
-                }
-            });
+    insertMessage: function(chatRoom, username, message, callback) {
+        var insertMessageQueryString = 'INSERT INTO message VALUES (\'' + chatRoom + '\',\'' + username + '\',\'' + message + '\', now())';
+        console.log(insertMessageQueryString);
+        pgQuery(insertMessageQueryString, function(err) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null);
+            }
         });
     },
     getMessages: function(chatRoom, limit, callback) {
-        chatdb.serialize(function() {
-            chatdb.all('SELECT message.msg, message.user, message.unix_time FROM message JOIN chat_room ON chat_room.name=message.room_name WHERE chat_room.name=\'' + chatRoom + '\'' + ' LIMIT ' + limit, function(err, rows){
-                if (err) {
-                    console.log('Error while grabbing messages: ' + err);
-                } else {
-                    callback(null, rows);
-                }
-            });
+        var getMessagesQueryString = 'SELECT username, msg, to_char(time, \'HH:SS\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
+        pgQuery(getMessagesQueryString, function(err, result) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, result.rows);
+            }
         });
     },
     getChatRooms: function(callback) {
-        chatdb.serialize(function() {
-            chatdb.all('SELECT name FROM chat_room', function(err, rows) {
-                if (err) {
-                    console.log('Error while grabbing chat rooms: ' + err);
-                } else {
-                    callback(null, rows);
-                }
-            });
+        pgQuery('SELECT room_name FROM chat_room', function(err, result) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, result.rows);
+            }
         });
     }
 };
