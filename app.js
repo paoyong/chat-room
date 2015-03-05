@@ -36,7 +36,7 @@ app.use(session({secret: 'keith'}));
 app.use('/', indexRouter);
 app.use('/chatrooms', chatRoomsRouter);
 app.use('/messages', messagesRouter);
-app.use('/r', rRouter);
+app.use('/r', rRouter(io));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,9 +70,6 @@ app.use(function(err, req, res, next) {
 });
 
 io.on('connection', function(socket) {
-    socket.on('hi', function(msg) {
-        console.log(msg);
-    });
     socket.on('chat message', function(msgInfo) {
         // Send that message to everyone.
         io.emit('chat message', msgInfo);

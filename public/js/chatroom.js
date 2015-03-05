@@ -22,6 +22,9 @@ function convertToHHMI(unix_time) {
     if (minutes < 10) {
         minutes = '0' + minutes;
     }
+    if (hours < 10) {
+        hours = '0' + hours;
+    }
 
     console.log(minutes);
     return hours + ':' + minutes;
@@ -74,7 +77,7 @@ var ChatApp = React.createClass({
             var messages = this.state.messages;
             var newMessages = messages.concat(newMsg);
             this.setState({messages: newMessages});
-            this.trimMessagesStateIfNecessary();
+            // this.trimMessagesStateIfNecessary();
         }
     },
     render: function() {
@@ -88,12 +91,16 @@ var ChatApp = React.createClass({
 });
 
 var MessagesList = React.createClass({
+    componentDidMount: function() {
+        var messagesList = this.refs.messagesList.getDOMNode();
+        messagesList.scrollTop = messagesList.scrollHeight;
+    },
     render: function() {
         var messageNodes = this.props.messages.map(function(msg) {
             return (<Message msg={msg} />);
         });
         return (
-            <ul className='messagesList'>
+            <ul className='messagesList' ref='messagesList'>
                 {messageNodes}
             </ul>
         );
@@ -145,3 +152,4 @@ React.render(
     <ChatApp uiLimit={uiLimit}/>,
     document.getElementById('app')
 );
+
