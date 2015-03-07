@@ -69,7 +69,12 @@ app.use(function(err, req, res, next) {
     });
 });
 
+var peopleOnline = 0;
 io.on('connection', function(socket) {
+    peopleOnline++;
+    console.log(peopleOnline);
+    socket.emit('connection', peopleOnline);
+
     socket.on('chat message', function(msgInfo) {
         // Send that message to everyone.
         io.emit('chat message', msgInfo);
@@ -80,6 +85,11 @@ io.on('connection', function(socket) {
                 console.log('Error while inserting message into db: ' + err);
             }
         });
+    });
+
+    socket.on('disconnect', function() {
+        peopleOnline--;
+        socket.emit('disconnect', peopleOnline);
     });
 });
 

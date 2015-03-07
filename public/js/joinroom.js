@@ -1,4 +1,5 @@
 var loggedInAs;
+var socket = io();
 function updateLogInInfo(username) {
     $('#loginMessage').text('Logged in as ' + username + '.');
 }
@@ -37,7 +38,13 @@ $('form').submit(function(e) {
 
 var App = React.createClass({
     getInitialState: function() {
-        return {rooms: []};
+        socket.on('connection', this.handleConnection);
+        return {rooms: [], peopleOnline: 0};
+    },
+    handleConnection: function(peopleOnline) {
+        conosle.log("HIHIHIHIHIH");
+        console.log(peopleOnline);
+        this.setState({peopleOnline: peopleOnline});
     },
     componentDidMount: function() {
         $.ajax({
@@ -48,14 +55,41 @@ var App = React.createClass({
             }.bind(this)
         });
     },
+    onChatRoomSubmit: function(roomName) {
+        var rooms = this.state.rooms;
+        var newRooms = rooms.concat(roomName);
+        $.ajax({
+            type: 'POST',
+            url: '/chatrooms/insert',
+            data: {
+                roomName: roomName
+            },
+            success: function() {
+                this.setState({rooms: newRooms});
+            }.bind(this)
+        });
+    },
     render: function() {
         return(
             <div className="chatRoomListApp">
+            <PeopleOnline peopleOnline={this.state.peopleOnline} />
+            <NewChatRoomForm onChatRoomSubmit={this.onChatRoomSubmit} />
             <ChatRoomsList rooms={this.state.rooms} />
             </div>
         );
     }
+});
+
+var PeopleOnline = React.createClass({
+    render: function() {
+        return (
+            <p className='peopleOnline'>
+            People online right now: <span id='peopleOnlineCount'>{this.props.peopleOnline}</span>
+            </p>
+        )
+    }
 })
+
 var ChatRoomsList = React.createClass({
     render: function() {
         var roomNodes = this.props.rooms.map(function(room) {
@@ -82,6 +116,24 @@ var ChatRoom = React.createClass({
     }
 });
 
+var NewChatRoomForm = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var roomName = this.refs.roomName.getDOMNode().value.trim();
+        if (!roomName) {
+            return;
+        }
+        this.props.onChatRoomSubmit(roomName);
+        this.refs.roomName.getDOMNode().value = '';
+    },
+    render: function() {
+        return (
+            <form className='newChatRoomForm' onSubmit={this.handleSubmit}>
+                <input type='text' placeholder='Create new room...' ref='roomName' />
+            </form>
+        );
+    }
+})
 React.render(
     <App />,
     document.getElementById('chatRoomList')
