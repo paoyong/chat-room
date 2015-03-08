@@ -2,8 +2,8 @@ var config = require('./config.js');
 var pg = require('pg');
 
 // Change to config.pg_local_url if working on local
-//var pgURL = config.pg_server_url;
-var pgURL = config.pg_local_url;
+var pgURL = config.pg_server_url;
+//var pgURL = config.pg_local_url;
 
 function pgQuery(queryString, callback) {
     pg.connect(pgURL, function(err, client, done) {
