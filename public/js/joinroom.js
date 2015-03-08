@@ -129,7 +129,7 @@ var NewChatRoomForm = React.createClass({
     render: function() {
         return (
             <form className='newChatRoomForm' onSubmit={this.handleSubmit}>
-                <input className='input_field' type='text' placeholder='Create new room...' ref='roomName' />
+                <input className='input_field short_input_field' type='text' placeholder='Create new room...' ref='roomName' />
             </form>
         );
     }
