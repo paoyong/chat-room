@@ -57,7 +57,7 @@ var App = React.createClass({
     },
     onChatRoomSubmit: function(roomName) {
         var rooms = this.state.rooms;
-        var newRooms = rooms.concat(roomName);
+        var newRooms = rooms.concat({room_name: roomName});
         $.ajax({
             type: 'POST',
             url: '/chatrooms/insert',
@@ -65,6 +65,8 @@ var App = React.createClass({
                 roomName: roomName
             },
             success: function() {
+                console.log('Successfully added new room. Now room list is');
+                console.log(newRooms);
                 this.setState({rooms: newRooms});
             }.bind(this)
         });
