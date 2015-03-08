@@ -122,7 +122,7 @@ var NewChatRoomForm = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         var roomName = this.refs.roomName.getDOMNode().value.trim();
-        if (!roomName) {
+        if (!roomName || 15 < roomName.length) {
             return;
         }
         this.props.onChatRoomSubmit(roomName);

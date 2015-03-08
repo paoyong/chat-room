@@ -125,7 +125,7 @@ var ChatForm = React.createClass({
 
         // The DOM node for <input> chat message
         var msgDOMNode = this.refs.msg.getDOMNode();
-        if (msgDOMNode.value === '') {
+        if (msgDOMNode.value === '' || 300 < msgDOMNode.value.length) {
             return;
         }
 
