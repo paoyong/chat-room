@@ -38,12 +38,12 @@ $('form').submit(function(e) {
 
 var App = React.createClass({
     getInitialState: function() {
-        socket.on('connection', this.handleConnection);
+        socket.on('user connected', this.handleConnection);
+        socket.on('user disconnected', this.handleConnection);
         return {rooms: [], peopleOnline: 0};
     },
     handleConnection: function(peopleOnline) {
-        conosle.log("HIHIHIHIHIH");
-        console.log(peopleOnline);
+        console.log('Hello from React, ' + peopleOnline + ' people are online!');
         this.setState({peopleOnline: peopleOnline});
     },
     componentDidMount: function() {
@@ -129,7 +129,7 @@ var NewChatRoomForm = React.createClass({
     render: function() {
         return (
             <form className='newChatRoomForm' onSubmit={this.handleSubmit}>
-                <input type='text' placeholder='Create new room...' ref='roomName' />
+                <input className='input_field' type='text' placeholder='Create new room...' ref='roomName' />
             </form>
         );
     }

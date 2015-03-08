@@ -72,8 +72,7 @@ app.use(function(err, req, res, next) {
 var peopleOnline = 0;
 io.on('connection', function(socket) {
     peopleOnline++;
-    console.log(peopleOnline);
-    socket.emit('connection', peopleOnline);
+    io.emit('user connected', peopleOnline);
 
     socket.on('chat message', function(msgInfo) {
         // Send that message to everyone.
@@ -89,7 +88,7 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function() {
         peopleOnline--;
-        socket.emit('disconnect', peopleOnline);
+        io.emit('user disconnected', peopleOnline);
     });
 });
 
