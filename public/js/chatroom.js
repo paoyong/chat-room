@@ -3,7 +3,7 @@ var socket = io();
 var roomName = $('#roomName').text();
 var username = $('#username').text();
 var limit = 200;
-var uiLimit = 30;
+var uiLimit = 5;
 var maxChatMessageLength = '400';
 var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
 // Seconds since Unix Epoch
@@ -41,7 +41,7 @@ var ChatApp = React.createClass({
             dataType: 'json',
             success: function(data) {
                 this.setState({messages: data});
-                this.trimMessagesStateIfNecessary();
+                // this.trimMessagesStateIfNecessary();
             }.bind(this),
             failure: function(xhr, status, err) {
                 console.err(url, status, err.toString());
@@ -52,9 +52,11 @@ var ChatApp = React.createClass({
         var messages = this.state.messages;
         var messagesLength = messages.length;
         var appUiLim = this.props.uiLimit;
+
         if (appUiLim < messagesLength) {
             messages.splice(0, messagesLength - uiLimit);
         }
+
         this.setState({messages: messages});
     },
     // Detected a new message from SocketIO
@@ -90,12 +92,12 @@ var ChatApp = React.createClass({
 var MessagesList = React.createClass({
     componentDidMount: function() {
         var messagesList = this.refs.messagesList.getDOMNode();
-        messagesList.scrollTop = messagesList.scrollHeight;
     },
     render: function() {
         var messageNodes = this.props.messages.map(function(msg) {
             return (<Message msg={msg} />);
         });
+
         return (
             <ul className='messagesList' ref='messagesList'>
                 {messageNodes}
@@ -105,13 +107,18 @@ var MessagesList = React.createClass({
 });
 
 var Message = React.createClass({
+    componentDidMount: function() {
+        var messageDOM = this.refs.message.getDOMNode();
+        messageDOM.scrollIntoView();
+    },
     render: function() {
         var msg = this.props.msg;
         return (
-            <li className='message'>
+            <li className='message' ref='message'>
                 <span className='messageTime'>{msg.time} </span>
                 <b className='username'>{msg.username}</b> 
-                <span className='messageText'>: {msg.msg}</span></li>
+                <span className='messageText'>: {msg.msg}</span>
+            </li>
         );
     }
 });
@@ -122,6 +129,7 @@ var ChatForm = React.createClass({
 
         // The DOM node for <input> chat message
         var msgDOMNode = this.refs.msg.getDOMNode();
+        
         if (msgDOMNode.value === '') {
             return;
         }

@@ -91,11 +91,13 @@ ul {
     animation-duration: 0.3s;
 
     box-sizing: border-box;
-    overflow: auto;
+    height: calc(100vh - 160px);
+    overflow: scroll;
 }
 
 .messageTime {
     margin-right: 5px;
+    color: #888;
 }
 
 .message {
