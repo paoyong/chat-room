@@ -1,5 +1,6 @@
 var loggedInAs;
 var socket = io();
+
 function updateLogInInfo(username) {
     $('#loginMessage').text('Logged in as ' + username + '.');
 }
@@ -8,9 +9,6 @@ $.ajax({
     url: '/login',
     success: function(username) {
         loggedInAs = username;
-        if (loggedInAs) {
-            updateLogInInfo(loggedInAs);
-        }
     }
 });
 

@@ -2,8 +2,8 @@ var config = require('./config.js');
 var pg = require('pg');
 
 // Change to config.pg_local_url if working on local
-var pgURL = config.pg_server_url;
-//var pgURL = config.pg_local_url;
+//var pgURL = config.pg_server_url;
+var pgURL = config.pg_local_url;
 
 function pgQuery(queryString, callback) {
     pg.connect(pgURL, function(err, client, done) {
@@ -42,8 +42,10 @@ module.exports = {
             }
         });
     },
-    getMessages: function(chatRoom, limit, timeZoneOffsetHours, callback) {
-        var getMessagesQueryString = 'SELECT username, msg, to_char((time - interval \'' + timeZoneOffsetHours + ' hours\'), \'HH24:MI\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
+    getMessages: function(chatRoom, limit, callback) {
+        // No need for time zone conversion!
+        var getMessagesQueryString = 'SELECT username, msg, to_char(time, \'HH24:MI\') as time FROM message JOIN chat_room ON chat_room.room_name=message.room_name WHERE chat_room.room_name=\'' + chatRoom + '\'' + ' LIMIT ' + limit;
+
         pgQuery(getMessagesQueryString, function(err, result) {
             if (err) {
                 callback(err);

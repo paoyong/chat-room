@@ -3,8 +3,8 @@ var router = express.Router();
 var db = require('../db.js');
 
 router.get('/', function(req, res, next){
-    if (req.query.chatroom && req.query.limit && req.query.timezoneoffsethours) {
-        db.getMessages(req.query.chatroom, req.query.limit, req.query.timezoneoffsethours, function(err, rows) {
+    if (req.query.chatroom && req.query.limit) {
+        db.getMessages(req.query.chatroom, req.query.limit, function(err, rows) {
             if (err) {
                 res.send(err);
             } else {

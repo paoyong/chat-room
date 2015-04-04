@@ -6,7 +6,8 @@ block content
             a(href='/about')= title
         p#loginMessage= loginMessage 
             span#loggedIn= loggedIn
-            |.
+        if errorMessage
+            p#errorMessage= errorMessage
     form(id='loginForm' autocomplete='off')
         span.input
             input.input_field.short_input_field(type='text', id='username', placeholder='Set username...')

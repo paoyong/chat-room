@@ -3,15 +3,23 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var currUser = req.session.username;
+    // Force page refresh on redirects and hitting "go back" button.
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
     var renderData = {
         title: 'chatter',
-        loginMessage: 'Logged in as ',
+        loginMessage: null,
+        errorMessage: null,
         loggedIn: currUser
     }
-    if (currUser === undefined) {
-        renderData.loginMessage = 'Please set a username.';
+
+    var currUser = req.session.username;
+    if (!currUser) {
+        renderData.errorMessage = 'Please set a username before joining a room';
+    } else {
+        renderData.loginMessage = 'Logged in as ' + currUser + '.';
     }
+
     res.render('index', renderData);
 });
 

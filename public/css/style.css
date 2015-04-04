@@ -50,6 +50,15 @@ header a:hover {
     margin-bottom: 10px;
 }
 
+#errorMessage {
+    background-color: #E74C3C;
+    color: white;
+    padding: 20px;
+    position: relative;
+    top: 20;
+    left: 20;
+}
+
 ul {
     list-style: none;
 }
@@ -73,7 +82,6 @@ ul {
     animation-duration: 0.3s;
 
     box-sizing: border-box;
-    height: 80vh;
     overflow: auto;
 }
 
@@ -123,7 +131,7 @@ input {
     -moz-transition: background-color .15s ease-out;
     -o-transition: background-color .15s ease-out;
     transition: background-color .15s ease-out;
-    background-color: white;
+    background-color: #eee;
 }
 
 .input_field {

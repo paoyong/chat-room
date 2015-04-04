@@ -1,10 +1,10 @@
 // Used by room.jade. This JS renders a Chat App for every chat room.
-// TODO: Implement username
 var socket = io();
 var roomName = $('#roomName').text();
 var username = $('#username').text();
 var limit = 200;
 var uiLimit = 30;
+var maxChatMessageLength = '400';
 var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
 // Seconds since Unix Epoch
 function getCurrUnixTime() {
@@ -26,7 +26,6 @@ function convertToHHMI(unix_time) {
         hours = '0' + hours;
     }
 
-    console.log(minutes);
     return hours + ':' + minutes;
 }
 
@@ -38,7 +37,7 @@ var ChatApp = React.createClass({
     componentDidMount: function() {
         // On ChatApp load, grab message history of current chat room from the /messages API
         $.ajax({
-            url: '/messages/?chatroom=' + roomName +'&limit=' + limit + '&timezoneoffsethours=' + timeZoneOffsetHours,
+            url: '/messages/?chatroom=' + roomName +'&limit=' + limit,
             dataType: 'json',
             success: function(data) {
                 this.setState({messages: data});
@@ -70,8 +69,6 @@ var ChatApp = React.createClass({
                 msg: msgInfo.msg,
                 time: HHMITime
             };
-
-            console.log(newMsg);
 
             // Here we are concatenating the new emitted message into our ChatApp's messages list
             var messages = this.state.messages;
@@ -125,7 +122,7 @@ var ChatForm = React.createClass({
 
         // The DOM node for <input> chat message
         var msgDOMNode = this.refs.msg.getDOMNode();
-        if (msgDOMNode.value === '' || 300 < msgDOMNode.value.length) {
+        if (msgDOMNode.value === '') {
             return;
         }
 
@@ -142,7 +139,7 @@ var ChatForm = React.createClass({
     render: function() {
         return (
             <form className='chatForm' onSubmit={this.handleSubmit}>
-            <input className='input_field chat_input_field' type='text' placeholder='Say something...' ref='msg'/>
+                <input className='input_field chat_input_field' type='text' maxLength={maxChatMessageLength} placeholder='Say something...' ref='msg'/>
             </form>
         );
     }
