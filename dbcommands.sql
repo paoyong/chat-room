@@ -1,6 +1,18 @@
-create table chat_room (
-    room_name   varchar(40),
-    primary key(room_name)
+DROP DATABASE IF EXISTS chatter;
+CREATE DATABASE chatter;
+\connect chatter;
+
+DROP TABLE IF EXISTS chat_room;
+
+CREATE TABLE chat_room (
+    room_name   VARCHAR(40),
+    PRIMARY KEY(room_name)
 );
 
-create table message (room_name varchar(40) references chat_room(room_name), username varchar(40), msg text, time timestamptz);
+CREATE TABLE message (
+    id serial PRIMARY KEY,
+    room_name VARCHAR(40) REFERENCES chat_room(room_name),
+    username VARCHAR(40),
+    msg TEXT,
+    time TIMESTAMPTZ
+);

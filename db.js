@@ -3,7 +3,7 @@ var pg = require('pg');
 
 // Change to config.pg_local_url if working on local
 var pgURL = config.pg_server_url;
-//var pgURL = config.pg_local_url;
+var pgURL = config.pg_local_url;
 
 function pgQuery(queryString, callback) {
     pg.connect(pgURL, function(err, client, done) {
@@ -23,7 +23,7 @@ function pgQuery(queryString, callback) {
 
 module.exports = {
     insertMessage: function(chatRoom, username, message, unix_time, callback) {
-        var insertMessageQueryString = 'INSERT INTO message VALUES (\'' + chatRoom + '\',\'' + username + '\',\'' + message + '\', to_timestamp(' + unix_time + '))';
+        var insertMessageQueryString = 'INSERT INTO message VALUES (DEFAULT, \'' + chatRoom + '\',\'' + username + '\',\'' + message + '\', to_timestamp(' + unix_time + '))';
         pgQuery(insertMessageQueryString, function(err) {
             if (err) {
                 callback(err);
