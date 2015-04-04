@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
         title: 'chatter',
         loginMessage: null,
         errorMessage: null,
+        usernameInputPlaceholder: 'Set username...',
         loggedIn: currUser
     }
 
@@ -18,6 +19,7 @@ router.get('/', function(req, res, next) {
         renderData.errorMessage = 'Please set a username before joining a room';
     } else {
         renderData.loginMessage = 'Logged in as ' + currUser + '.';
+        renderData.usernameInputPlaceholder = 'Change username...'
     }
 
     res.render('index', renderData);

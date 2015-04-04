@@ -2,7 +2,9 @@ var loggedInAs;
 var socket = io();
 
 function updateLogInInfo(username) {
+    $('#errorMessage').hide(600);
     $('#loginMessage').text('Logged in as ' + username + '.');
+    $('#username').attr('placeholder', 'Change username...');
 }
 
 $.ajax({

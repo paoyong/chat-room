@@ -48,15 +48,22 @@ header a:hover {
 
 #loginForm {
     margin-bottom: 10px;
+    position: relative;
 }
 
 #errorMessage {
     background-color: #E74C3C;
     color: white;
-    padding: 20px;
-    position: relative;
-    top: 20;
-    left: 20;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    left: 200px;
+}
+
+@media (max-width: 400px) {
+    #errorMessage {
+        position: static;
+    }
 }
 
 ul {
@@ -158,6 +165,33 @@ input {
     padding: 10px 20px 10px 20px;
     border-radius: 2px;
 }
+
+@media (max-width: 400px) {
+    input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .input_field {
+        width: 100%;
+        max-width: 100%;
+    }
+    .input_submit {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .short_input_field {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .input_submit {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
 label {
     -webkit-user-select: none;
     -khtml-user-select: none;
