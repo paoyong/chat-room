@@ -73,12 +73,13 @@ var App = React.createClass({
         });
     },
     render: function() {
+        // Removing for now, too much clutter
+        // <NewChatRoomForm onChatRoomSubmit={this.onChatRoomSubmit} />
         return(
             <div className="chatRoomListApp">
             <PeopleOnline peopleOnline={this.state.peopleOnline} />
             <h3 id='joinAChatRoom'>Join a chat room</h3>
             <ChatRoomsList rooms={this.state.rooms} />
-            <NewChatRoomForm onChatRoomSubmit={this.onChatRoomSubmit} />
             </div>
         );
     }

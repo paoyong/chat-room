@@ -12,14 +12,14 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/insert', function(req, res, next) {
-    db.insertChatRoom(req.body.roomName, function(err) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('Inserted new chat room into database.');
-        }
-    });
-});
+// router.post('/insert', function(req, res, next) {
+//     db.insertChatRoom(req.body.roomName, function(err) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.send('Inserted new chat room into database.');
+//         }
+//     });
+// });
 
 module.exports = router;
