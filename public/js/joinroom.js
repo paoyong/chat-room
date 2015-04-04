@@ -1,5 +1,6 @@
 var loggedInAs;
 var socket = io();
+var createNewRoomMaxLength = '30';
 
 function updateLogInInfo(username) {
     $('#errorMessage').hide(600);
@@ -75,8 +76,9 @@ var App = React.createClass({
         return(
             <div className="chatRoomListApp">
             <PeopleOnline peopleOnline={this.state.peopleOnline} />
-            <NewChatRoomForm onChatRoomSubmit={this.onChatRoomSubmit} />
+            <h3 id='joinAChatRoom'>Join a chat room</h3>
             <ChatRoomsList rooms={this.state.rooms} />
+            <NewChatRoomForm onChatRoomSubmit={this.onChatRoomSubmit} />
             </div>
         );
     }
@@ -111,9 +113,9 @@ var ChatRoom = React.createClass({
     render: function() {
         var roomName = this.props.roomName;
         return (
-            <li className='room'>
+                <li className='room'>
                 <a href={'r/' + roomName}>{roomName}</a>
-            </li>
+                </li>
         );
     }
 });
@@ -122,7 +124,7 @@ var NewChatRoomForm = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         var roomName = this.refs.roomName.getDOMNode().value.trim();
-        if (!roomName || 15 < roomName.length) {
+        if (!roomName) {
             return;
         }
         this.props.onChatRoomSubmit(roomName);
@@ -131,7 +133,7 @@ var NewChatRoomForm = React.createClass({
     render: function() {
         return (
             <form className='newChatRoomForm' onSubmit={this.handleSubmit}>
-                <input className='input_field short_input_field' type='text' placeholder='Create new room...' ref='roomName' />
+                <input className='input_field short_input_field' type='text' placeholder='Create new room...' maxLength={createNewRoomMaxLength} ref='roomName' />
             </form>
         );
     }
