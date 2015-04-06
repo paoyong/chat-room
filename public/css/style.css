@@ -93,6 +93,7 @@ ul {
     box-sizing: border-box;
     height: calc(100vh - 160px);
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 .messageTime {

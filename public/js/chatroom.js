@@ -3,7 +3,7 @@ var socket = io();
 var roomName = $('#roomName').text();
 var username = $('#username').text();
 var limit = 200;
-var uiLimit = 5;
+var uiLimit = 100;
 var maxChatMessageLength = '400';
 var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
 // Seconds since Unix Epoch
