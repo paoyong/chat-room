@@ -91,8 +91,8 @@ ul {
     animation-duration: 0.3s;
 
     box-sizing: border-box;
-    height: calc(100vh - 160px);
-    overflow: scroll;
+    height: calc(100vh - 170px);
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
