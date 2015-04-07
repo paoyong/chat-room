@@ -93,7 +93,7 @@ var PeopleOnline = React.createClass({
             </p>
         )
     }
-})
+});
 
 var ChatRoomsList = React.createClass({
     render: function() {
@@ -138,7 +138,8 @@ var NewChatRoomForm = React.createClass({
             </form>
         );
     }
-})
+});
+
 React.render(
     <App />,
     document.getElementById('chatRoomList')
