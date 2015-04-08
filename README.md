@@ -16,7 +16,7 @@ Socket.io talks between frontend and backend. Whenever someone sends a chat mess
 ```
 public/
 ..js/
-....joinroom.js     <-- React code that renders available rooms to jion
+....joinroom.js     <-- React code that renders available rooms to join
 ....chatroom.js     <-- React code that renders the chat application
 ....react.js
 ....JSXTransformer.js
