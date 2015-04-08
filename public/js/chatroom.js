@@ -6,7 +6,11 @@ var limit = 200;
 var uiLimit = 100;
 var maxChatMessageLength = '400';
 var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
-// Seconds since Unix Epoch
+
+// Seconds since Unix Epoch. Used to convert between the database
+// timestamp and client JS timestamp. However it is much easier to
+// just do it in postgresql queries, as they have a lot of good 
+// date/time functions.
 function getCurrUnixTime() {
     return Math.floor((new Date().getTime()) / 1000);
 }
@@ -29,8 +33,15 @@ function convertToHHMI(unix_time) {
     return hours + ':' + minutes;
 }
 
+// Flux Architecture
+// ChatApp is the central state store. Notice that all other React
+// components use props, not state. Whenever a state in ChatApp changes
+// usually by recieving a socket message from other user, the props
+// are updated automatically by React.js. This makes development simple,
+// as ChatApp is the only React component that is dynamic.
 var ChatApp = React.createClass({
     getInitialState: function() {
+        // Handle socket chat message from other users
         socket.on('chat message', this.messageRecieve);
         return {messages: []};
     },
@@ -59,7 +70,7 @@ var ChatApp = React.createClass({
 
         this.setState({messages: messages});
     },
-    // Detected a new message from SocketIO
+    // Called when app detects a new message from SocketIO
     messageRecieve: function(msgInfo) {
         if (msgInfo.room_name === roomName) {
             // Create a new msgInfo for this current React app
