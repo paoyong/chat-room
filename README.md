@@ -16,5 +16,12 @@ Socket.io talks between frontend and backend. Whenever someone sends a chat mess
 Chatter relies heavily on postgresql, so correct setup for postgres is mandatory. For this application, I used postgres with username `postgres` and password `postgres`. You can choose to roll with a diffent username, but I find that doing `postgres` for both makes it simple.
 
 1. Set up postgresql connection string at config.js
-2. Run `dbcommands.sql` with `psql -U postgres -a -f dbcommands.sql`. If using a different postgresql username and/or password, update `config.js` accordingly.
-3. Run `node app.js`. Of course, `pm2` or `forever` is recommended.
+2. Run `dbcommands.sql` with the bash command 
+
+```
+psql -U postgres -a -f dbcommands.sql
+``` 
+
+3. If using a different postgresql username and/or password, update `config.js` accordingly.
+
+4. Run `node app.js`, or use `pm2`/`forever` to run it in the background on a server.
